@@ -14,37 +14,34 @@ options.set_capability('sessionName', 'BStack Sample Test')
 driver = webdriver.Chrome(options=options)
 
 try:
-    driver.get('https://bstackdemo.com/')
-    WebDriverWait(driver, 10).until(EC.title_contains('StackDemo'))
-    # Get text of an product - iPhone 12
-    item_on_page = WebDriverWait(driver, 10).until(
-        EC.visibility_of_element_located((By.XPATH, '//*[@id="1"]/p'))).text
-    # Click the 'Add to cart' button if it is visible
-    WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
-        (By.XPATH, '//*[@id="1"]/div[4]'))).click()
-    # Check if the Cart pane is visible
-    WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
-        (By.CLASS_NAME, 'float-cart__content')))
-    # Get text of product in cart
-    item_in_cart = WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
-        (By.XPATH, '//*[@id="__next"]/div/div/div[2]/div[2]/div[2]/div/div[3]/p[1]'))).text
-    # Verify whether the product (iPhone 12) is added to cart
-    if item_on_page == item_in_cart:
-        # Set the status of test as 'passed' if item is added to cart
-        driver.execute_script(
-            'browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"passed", "reason": "iPhone 12 has been successfully added to the cart!"}}')
-    else:
-        # Set the status of test as 'failed' if item is not added to cart
-        driver.execute_script(
-            'browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"failed", "reason": "iPhone 12 not added to the cart!"}}')
-except NoSuchElementException as err:
-    message = 'Exception: ' + str(err.__class__) + str(err.msg)
-    driver.execute_script(
-        'browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"failed", "reason": ' + json.dumps(message) + '}}')
-except Exception as err:
-    message = 'Exception: ' + str(err.__class__) + str(err.msg)
-    driver.execute_script(
-        'browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"failed", "reason": ' + json.dumps(message) + '}}')
+    try:
+    # Open BrowserStack login page
+    driver.get("https://www.browserstack.com/users/sign_in")
+
+    # Log in
+    username_input = driver.find_element(By.ID, "user_email_login")
+    password_input = driver.find_element(By.ID, "user_password")
+    login_button = driver.find_element(By.ID, "user_submit")
+
+    username_input.send_keys(USERNAME)
+    password_input.send_keys(PASSWORD)
+    login_button.click()
+
+    # Wait for homepage to load and assert 'Invite Users' link
+    wait = WebDriverWait(driver, 10)
+    invite_users_link = wait.until(EC.presence_of_element_located((By.LINK_TEXT, "Invite Users")))
+
+    # Retrieve and print the URL of 'Invite Users' link
+    invite_users_url = invite_users_link.get_attribute('href')
+    print(f"Invite Users URL: {invite_users_url}")
+
+    # Log out
+    profile_menu = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, ".profile-menu")))
+    profile_menu.click()
+    logout_button = wait.until(EC.presence_of_element_located((By.LINK_TEXT, "Sign out")))
+    logout_button.click()
+
+    print("Logged out successfully.")
 finally:
     # Stop the driver
     driver.quit()
