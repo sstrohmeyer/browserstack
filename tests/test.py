@@ -1,25 +1,31 @@
-import json
 from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.chrome.options import Options as ChromeOptions
+import os
 
-# The webdriver management will be handled by the browserstack-sdk
-# so this will be overridden and tests will run browserstack -
-# without any changes to the test files!
-options = ChromeOptions()
-options.set_capability('sessionName', 'BStack Sample Test')
-driver = webdriver.Chrome(options=options)
+# Read credentials from environment variables
+USERNAME = os.getenv('BROWSERSTACK_USERNAME')
+PASSWORD = os.getenv('BROWSERSTACK_PASSWORD')
+
+# Initialize WebDriver
+chrome_options = Options()
+chrome_options.add_argument("--headless")  # Run headless Chrome
+service = Service(os.getenv('CHROME_DRIVER_PATH'))  # Path to your ChromeDriver
+
+driver = webdriver.Chrome(service=service, options=chrome_options)
 
 try:
-    try:
     # Open BrowserStack login page
     driver.get("https://www.browserstack.com/users/sign_in")
 
+    # Wait for the login page to load
+    wait = WebDriverWait(driver, 10)
+    username_input = wait.until(EC.presence_of_element_located((By.ID, "user_email_login")))
+
     # Log in
-    username_input = driver.find_element(By.ID, "user_email_login")
     password_input = driver.find_element(By.ID, "user_password")
     login_button = driver.find_element(By.ID, "user_submit")
 
@@ -28,7 +34,6 @@ try:
     login_button.click()
 
     # Wait for homepage to load and assert 'Invite Users' link
-    wait = WebDriverWait(driver, 10)
     invite_users_link = wait.until(EC.presence_of_element_located((By.LINK_TEXT, "Invite Users")))
 
     # Retrieve and print the URL of 'Invite Users' link
@@ -42,6 +47,7 @@ try:
     logout_button.click()
 
     print("Logged out successfully.")
+
 finally:
-    # Stop the driver
+    # Close the browser
     driver.quit()
