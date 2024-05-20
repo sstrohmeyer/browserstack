@@ -25,8 +25,8 @@ try:
     password_input = driver.find_element(By.ID, "user_password")
     login_button = driver.find_element(By.ID, "user_submit")
 
-    username_input.send_keys(BROWSERSTACK_USERNAME)
-    password_input.send_keys(BROWSERSTACK_ACCESS_KEY)
+    username_input.send_keys(scottstrohmeyer_Dd3LsX)
+    password_input.send_keys(cKqp5YqDpZfJyCeefbJk)
     login_button.click()
 
     # Wait for homepage to load and assert 'Invite Users' link
