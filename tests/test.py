@@ -30,7 +30,7 @@ try:
     login_button.click()
 
     # Wait for homepage to load and assert 'Invite Users' link
-    invite_users_link = wait.until(EC.presence_of_element_located((By.LINK_TEXT, "Invite Team")))
+    invite_users_link = wait.until(EC.presence_of_element_located((By.LINK_TEXT, "manage-users")))
 
     # Retrieve and print the URL of 'Invite Users' link
     invite_users_url = invite_users_link.get_attribute('href')
