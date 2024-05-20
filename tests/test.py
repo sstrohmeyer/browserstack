@@ -3,7 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support import expected_conditions as ec
 import os
 
 # Initialize WebDriver
@@ -19,7 +19,7 @@ try:
 
     # Wait for the login page to load
     wait = WebDriverWait(driver, 10)
-    username_input = wait.until(EC.presence_of_element_located((By.ID, "user_email_login")))
+    username_input = wait.until(ec.presence_of_element_located((By.ID, "user_email_login")))
 
     # Log in
     password_input = driver.find_element(By.ID, "user_password")
