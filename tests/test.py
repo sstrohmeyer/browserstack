@@ -10,6 +10,15 @@ import os
 USERNAME = os.getenv('SERVICE_CREDS_USR')
 PASSWORD = os.getenv('SERVICE_CREDS_PSW')
 
+# Debug: Print the credentials to ensure they are correctly set
+print(f"USERNAME: {USERNAME}")
+print(f"PASSWORD: {PASSWORD}")
+
+# Check if credentials are retrieved correctly
+if not USERNAME or not PASSWORD:
+    raise ValueError("Username or Password environment variables are not set")
+
+
 # Initialize WebDriver
 chrome_options = Options()
 chrome_options.add_argument("--headless")  # Run headless Chrome
