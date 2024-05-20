@@ -6,13 +6,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import os
 
-# Read credentials from environment variables
-USERNAME = os.getenv('SERVICE_CREDS_USR')
-PASSWORD = os.getenv('SERVICE_CREDS_PSW')
-
 # Debug: Print the credentials to ensure they are correctly set
-print(f"USERNAME: {USERNAME}")
-print(f"PASSWORD: {PASSWORD}")
+print(f"USERNAME: {SERVICE_CREDS_USR}")
+print(f"PASSWORD: {SERVICE_CREDS_PSW}")
 
 # Check if credentials are retrieved correctly
 if not USERNAME or not PASSWORD:
