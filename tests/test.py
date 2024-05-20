@@ -6,15 +6,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import os
 
-# Debug: Print the credentials to ensure they are correctly set
-print(f"USERNAME: {SERVICE_CREDS_USR}")
-print(f"PASSWORD: {SERVICE_CREDS_PSW}")
-
-# Check if credentials are retrieved correctly
-if not USERNAME or not PASSWORD:
-    raise ValueError("Username or Password environment variables are not set")
-
-
 # Initialize WebDriver
 chrome_options = Options()
 chrome_options.add_argument("--headless")  # Run headless Chrome
@@ -34,8 +25,8 @@ try:
     password_input = driver.find_element(By.ID, "user_password")
     login_button = driver.find_element(By.ID, "user_submit")
 
-    username_input.send_keys(USERNAME)
-    password_input.send_keys(PASSWORD)
+    username_input.send_keys(BROWSERSTACK_USERNAME)
+    password_input.send_keys(BROWSERSTACK_ACCESS_KEY)
     login_button.click()
 
     # Wait for homepage to load and assert 'Invite Users' link
