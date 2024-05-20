@@ -7,8 +7,8 @@ from selenium.webdriver.support import expected_conditions as EC
 import os
 
 # Read credentials from environment variables
-USERNAME = os.getenv('BROWSERSTACK_USERNAME')
-PASSWORD = os.getenv('BROWSERSTACK_PASSWORD')
+USERNAME = os.getenv('SERVICE_CREDS_USR')
+PASSWORD = os.getenv('SERVICE_CREDS_PSW')
 
 # Initialize WebDriver
 chrome_options = Options()
